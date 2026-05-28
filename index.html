@@ -185,7 +185,42 @@
     .card-grid { grid-template-columns: 1fr 1fr; }
     .principle-grid { grid-template-columns: repeat(3, 1fr); }
     .page-title { font-size: 24px; }
+    .day-grid { grid-template-columns: repeat(7, 1fr); }
   }
+  /* 이노펀 day grid */
+  .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin: 16px 0; }
+  .day-box { border-radius: 8px; padding: 10px 6px; text-align: center; border: 1px solid var(--border); }
+  .day-box .day-name { font-size: 13px; font-weight: 700; }
+  .day-box .day-status { font-size: 10px; margin-top: 4px; line-height: 1.3; color: var(--text-secondary); }
+  .day-box.day-normal { background: #F5F5F5; border-color: #E0E0E0; }
+  .day-box.day-special { background: #E8F8F0; border-color: #A8DFC4; color: var(--green); }
+  .day-box.day-special .day-status { color: var(--green); }
+  .day-box.day-cond { background: #FFFBEB; border-color: #FFE099; }
+  .day-box.day-closed { background: #FFF0F0; border-color: #FFBBBB; color: var(--red); }
+  .day-box.day-closed .day-status { color: var(--red); }
+  /* 스크립트 카드 */
+  .script-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin: 12px 0; }
+  .script-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+  .script-card-title { font-size: 14px; font-weight: 700; }
+  .script-card-tag { font-size: 11px; color: var(--text-secondary); background: var(--bg); border-radius: 4px; padding: 2px 8px; white-space: nowrap; flex-shrink: 0; }
+  .script-card-meta { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; }
+  .script-speech { font-size: 13px; color: #B85000; font-style: italic; background: var(--orange-light); border-radius: 6px; padding: 10px 14px; margin: 8px 0; line-height: 1.7; border-left: 3px solid var(--orange); }
+  .script-notes { font-size: 12px; color: var(--text-secondary); padding-left: 16px; margin-top: 6px; }
+  .script-notes li { margin: 3px 0; }
+  /* 프로세스 스텝 */
+  .process-steps { display: flex; flex-direction: column; gap: 0; margin: 16px 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .process-step { display: flex; gap: 16px; align-items: flex-start; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .process-step:last-child { border-bottom: none; }
+  .process-num { width: 28px; height: 28px; background: var(--orange); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+  .process-content strong { font-size: 14px; display: block; margin-bottom: 4px; }
+  .process-content p { font-size: 13px; color: var(--text-secondary); margin: 0; line-height: 1.6; }
+  .process-content em { color: var(--orange); font-style: normal; font-weight: 600; }
+  /* 사진 예시 박스 */
+  .photo-box { border: 2px dashed var(--border); border-radius: 10px; padding: 20px; margin: 12px 0; background: var(--bg); }
+  .photo-box-label { font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .photo-box-desc { font-size: 13px; color: var(--text); }
+  .photo-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0; }
+  @media (max-width: 768px) { .photo-row { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -881,13 +916,143 @@
     <li onclick="toggleCheck(this, 'ch5', 3)"><div class="check-box"></div><span class="check-label">상담 테이블/의자 정돈</span></li>
     <li onclick="toggleCheck(this, 'ch5', 3)"><div class="check-box"></div><span class="check-label">화장실 청소 확인</span></li>
   </ul>
-  <h2>4. 이노펀 주문 관리</h2>
-  <div class="table-wrap"><table>
-    <tr><th>주문 대상</th><th>주문 주기</th><th>담당</th></tr>
-    <tr><td>소모품 (맨 폰보, 핀, 쉽실립퍼)</td><td>필요 시 수시</td><td>담당 직원</td></tr>
-    <tr><td>카탈로그 / 안내문</td><td>소진 시</td><td>매니저 승인 후</td></tr>
-    <tr><td>평생교육 재료</td><td>정기 새 스톡 시</td><td>매니저</td></tr>
-  </table></div>
+  <h2>4. 이노펀 주문 가이드</h2>
+
+  <h3>요일별 주문 규칙</h3>
+  <div class="day-grid">
+    <div class="day-box day-normal"><div class="day-name">월</div><div class="day-status">일반<br>가능</div></div>
+    <div class="day-box day-normal"><div class="day-name">화</div><div class="day-status">일반<br>가능</div></div>
+    <div class="day-box day-normal"><div class="day-name">수</div><div class="day-status">일반<br>가능</div></div>
+    <div class="day-box day-normal"><div class="day-name">목</div><div class="day-status">일반<br>가능</div></div>
+    <div class="day-box day-special"><div class="day-name">금 ★</div><div class="day-status">무조건<br>주문의 날</div></div>
+    <div class="day-box day-cond"><div class="day-name">토 △</div><div class="day-status">3만원↑<br>당일도착</div></div>
+    <div class="day-box day-closed"><div class="day-name">일 ✕</div><div class="day-status">배송<br>없음</div></div>
+  </div>
+  <div class="callout green"><span class="callout-icon">★</span><div class="callout-text"><strong>금요일 = 무조건 주문의 날</strong> — 가장 안정적으로 받을 수 있습니다. 토요일은 3만원 이상 주문 시 당일 도착. 일요일은 배송 없음.</div></div>
+
+  <h3>주문 전 체크리스트</h3>
+  <ul class="checklist" id="inopon-check">
+    <li onclick="toggleCheck(this,'inopon',1)"><div class="check-box"></div><span class="check-label">금요일 주문 여부 확인 (가장 이상적)</span></li>
+    <li onclick="toggleCheck(this,'inopon',2)"><div class="check-box"></div><span class="check-label">주력 모델 케이스 재고 확인 (S26 · 폴더블7 · 아이폰17)</span></li>
+    <li onclick="toggleCheck(this,'inopon',3)"><div class="check-box"></div><span class="check-label">S26류 필름 → 지문인식 가능 필름인지 확인</span></li>
+    <li onclick="toggleCheck(this,'inopon',4)"><div class="check-box"></div><span class="check-label">보급형 단말기 케이스 재고 확인 (A17 · M16 등)</span></li>
+    <li onclick="toggleCheck(this,'inopon',5)"><div class="check-box"></div><span class="check-label">20W 어댑터 재고 확인 (약 20개 단위 권장)</span></li>
+  </ul>
+
+  <h3>항목별 발표 스크립트</h3>
+
+  <div class="script-card">
+    <div class="script-card-head">
+      <div class="script-card-title">주력 모델 케이스 · S26 · 폴더블7 · 아이폰17</div>
+      <div class="script-card-tag">10개 구비 권장</div>
+    </div>
+    <div class="script-card-meta">카메라 커버링 투명케이스</div>
+    <div class="script-speech">"사장님, S26류, 폴더블7류, 아이폰17류 주력 모델은 카메라까지 커버되는 투명케이스로 주문하시는 걸 권장 드려요. 항상 10개 정도 구비해 두시는 게 제일 좋습니다. 너무 많이 쌓아 두시면 안전하게 되거나 나눠드리는 경우도 생기더라고요."</div>
+    <ul class="script-notes">
+      <li>권장 수량 10개 · 카메라 커버링 투명케이스</li>
+      <li>초과 구비 시 재고 압박 · 무분별 증정 위험</li>
+    </ul>
+  </div>
+
+  <div class="script-card">
+    <div class="script-card-head">
+      <div class="script-card-title">보급형 단말기 케이스 · A17 · M16 등</div>
+      <div class="script-card-tag">임시용 / 최저가</div>
+    </div>
+    <div class="script-card-meta">카메라 미커버 최저가 투명케이스</div>
+    <div class="script-speech">"보급형 단말기는 카메라 미커버 최저가 투명케이스로 주문하시면 충분해요. 주 고객층이 어르신이라 나중에 다이어리 케이스를 재주문하는 경우가 많거든요. 기본 케이스는 잠깐 쓰는 용도로 최저가로 챙겨 두시는 게 합리적입니다."</div>
+    <ul class="script-notes">
+      <li>주 고객층 어르신 → 다이어리 케이스 재주문 빈번</li>
+      <li>기본 케이스 = 임시용 → 최저가 구비 권장</li>
+    </ul>
+  </div>
+
+  <div class="script-card">
+    <div class="script-card-head">
+      <div class="script-card-title">필름 주문 주의사항</div>
+      <div class="script-card-tag">5매 단위 / S26 필수주의</div>
+    </div>
+    <div class="script-card-meta">S26류: 지문인식 가능 필름 필수</div>
+    <div class="script-speech">"필름은 주력 모델 기준 5매 단위로 주문하시는 게 가성비가 제일 좋아요. S26류는 지문인식 때문에 반드시 지문인식 가능 필름 또는 우레탄 필름으로 주문하셔야 해요. 아이폰·보급형은 일반 강화유리 필름 쓰셔도 괜찮습니다."</div>
+    <ul class="script-notes">
+      <li>S26류: 지문인식 가능 / 우레탄 필름 필수</li>
+      <li>아이폰·보급형: 일반 강화유리 사용 가능 · 주력모델 10개 구비</li>
+    </ul>
+  </div>
+
+  <div class="script-card">
+    <div class="script-card-head">
+      <div class="script-card-title">요일별 주문 규칙 설명</div>
+      <div class="script-card-tag">금요일 필수</div>
+    </div>
+    <div class="script-card-meta">금요일 필수 | 일요일 배송 없음 | 토요일 조건부</div>
+    <div class="script-speech">"금요일은 무조건 시키는 날이에요 — 가장 안정적으로 받으실 수 있거든요. 일요일은 배송이 아예 안 오고, 토요일은 3만 원 이상 주문하셔야 당일 도착이 돼요. 이 세 가지만 기억해 두시면 됩니다."</div>
+    <ul class="script-notes">
+      <li>금요일: 무조건 주문 추천</li>
+      <li>토요일: 3만원 이상 → 당일 도착 · 일요일: 배송 없음</li>
+    </ul>
+  </div>
+
+  <h3>도착 후 고객 관리 프로세스</h3>
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="process-num">1</div>
+      <div class="process-content">
+        <strong>주문 시 — 사이트 메모란에 고객 성함 기재</strong>
+        <p>이노펀 주문 시 메모란에 고객 성함을 입력해 두세요. 수량이 여러 개인 경우 "성함x수량" 형식으로 기재합니다. (예: 오현택님x4)</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">2</div>
+      <div class="process-content">
+        <strong>도착 후 — 성함 + 판매가격 + 날짜 스티커 부착</strong>
+        <p>상품 도착 시 고객 성함·판매가격·날짜를 기재한 스티커를 상품에 부착합니다. <em>가격표 = "서비스를 받고 있다"는 인식 제공.</em> 날짜 = 1개월 보관 기한 관리 기준.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">3</div>
+      <div class="process-content">
+        <strong>도착 당일 — 고객에게 문자 발송</strong>
+        <p>예시 문구: <em>"휴대폰매장입니다! 주문하신 악세사리 도착해서 연락드려용! 시간 되실 때 꼭 찾으러 와주세용~"</em></p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">4</div>
+      <div class="process-content">
+        <strong>1개월 경과 — 미수령 시 이노펀 환불 처리</strong>
+        <p>날짜 스티커 기준으로 1개월이 지나도 찾아가지 않으면 환불 처리합니다.</p>
+      </div>
+    </div>
+  </div>
+  <div class="callout green"><span class="callout-icon">💡</span><div class="callout-text">도착 문자 발송 후 고객 반응이 매우 좋습니다. 가격표는 "이 악세사리가 얼마짜리 서비스인지" 고객이 체감하게 해주는 중요한 장치입니다.</div></div>
+
+  <h3>실제 사례 (참고)</h3>
+  <div class="photo-row">
+    <div class="photo-box">
+      <div class="photo-box-label">📦 도착 상품 관리 예시</div>
+      <div class="photo-box-desc">상품에 날짜(5/18) + 고객 성함 + 판매가격 스티커를 부착한 모습<br><br>
+        강성윤님 — CAPRI ZIPPER 다이어리 케이스 12,000원<br>
+        오현서님×2 — 강화유리 필름 660원×2<br>
+        이정한님 — 슬림핏 보조배터리 4,100원<br>
+        오현택님×4 — 크리스탈 캡슐 케이스 730원×4<br>
+        한아진님×2 — 크리스탈 캡슐 케이스 730원×2
+      </div>
+    </div>
+    <div class="photo-box">
+      <div class="photo-box-label">🛒 이노펀 주문배송조회 예시</div>
+      <div class="photo-box-desc">메모란에 고객 성함이 입력된 주문 화면<br><br>
+        총 합계금액 <strong>0원</strong> (무료 서비스)<br><br>
+        제품별 단가: 강화유리 660원 / 투명케이스 730원 / 말랑케이스 1,350원 / 보조배터리 4,100원 / 다이어리케이스 7,500원
+      </div>
+    </div>
+    <div class="photo-box">
+      <div class="photo-box-label">📱 도착 안내 문자 발송 예시</div>
+      <div class="photo-box-desc">고객 전체에게 동일 문자 일괄 발송<br><br>
+        "휴대폰매장입니다! 주문하신 악세사리 도착해서 연락드려용! 시간 되실 때 꼭 찾으러 와주세용~"<br><br>
+        수신자: 오현택님 / 한아진님 / 오현서님 / 이정한님 / 강성윤님
+      </div>
+    </div>
+  </div>
   <h2>5. 일보(독스) 작성 방법</h2>
   <div class="table-wrap"><table>
     <tr><th>시트</th><th>입력 항목</th></tr>
